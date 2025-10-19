@@ -28,6 +28,13 @@ async def message_event_handler(room, message):
     # Function logic
     resp_id = match.args()[0]
     available_responses = os.listdir(RESPONSES_FOLDER)
+
+    # Alias support
+    if f'{resp_id}.alias' in available_responses:
+        with open(os.path.join(RESPONSES_FOLDER, f'{resp_id}.alias')) as alias_file:
+            resp_id = alias_file.read().strip()
+
+    # handle actual responses
     if f'{resp_id}.md' in available_responses:
         with open(os.path.join(RESPONSES_FOLDER, f'{resp_id}.md')) as response_file:
             response = response_file.read()
