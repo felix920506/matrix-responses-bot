@@ -3,3 +3,4 @@ responses/*
 session.txt
 store/*
 config.py
+/env
