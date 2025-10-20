@@ -29,3 +29,5 @@ let's say `test.alias` contains the following:
 something
 ```
 the result of `{prefix} test` will be the same as `{prefix} something`
+
+You cannot chain multiple aliases
