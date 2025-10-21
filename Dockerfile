@@ -6,8 +6,7 @@
 
 # Want to help us make this template better? Share your feedback here: https://forms.gle/ybq9Krt8jtBL3iCk7
 
-ARG PYTHON_VERSION=3.12-alpine
-FROM python:${PYTHON_VERSION}-slim as base
+FROM python:3.12-alpine AS base
 
 # Prevents Python from writing pyc files.
 ENV PYTHONDONTWRITEBYTECODE=1
@@ -34,7 +33,7 @@ RUN adduser \
 RUN sed -i 's/#http:\/\/dl-cdn.alpinelinux.org\/alpine\/v[0-9]*\.[0-9]*\/community/http:\/\/dl-cdn.alpinelinux.org\/alpine\/v$(cat \/etc\/alpine-release | cut -d'.' -f1-2)\/community/g' /etc/apk/repositories
 
 # install system dependencies
-RUN apk add py3-olm
+RUN apk add --no-cache py3-olm
 
 # Download dependencies as a separate step to take advantage of Docker's caching.
 # Leverage a cache mount to /root/.cache/pip to speed up subsequent builds.
