@@ -48,8 +48,10 @@ async def message_event_handler(room, message):
 
 while True:
     try:
+        print('starting bot')
         bot.run()
     except KeyboardInterrupt:
         exit()
-    except:
+    except Exception as e:
+        print(e)
         pass

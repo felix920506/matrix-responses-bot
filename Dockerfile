@@ -6,7 +6,7 @@
 
 # Want to help us make this template better? Share your feedback here: https://forms.gle/ybq9Krt8jtBL3iCk7
 
-FROM python:3.12-alpine AS base
+FROM python:3.12-bookworm AS base
 
 # Prevents Python from writing pyc files.
 ENV PYTHONDONTWRITEBYTECODE=1
@@ -16,6 +16,8 @@ ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
 WORKDIR /app
+
+RUN apt update
 
 # Create a non-privileged user that the app will run under.
 # See https://docs.docker.com/go/dockerfile-user-best-practices/
@@ -30,10 +32,11 @@ RUN adduser \
     appuser
 
 # enable community repository
-RUN sed -i 's/#http:\/\/dl-cdn.alpinelinux.org\/alpine\/v[0-9]*\.[0-9]*\/community/http:\/\/dl-cdn.alpinelinux.org\/alpine\/v$(cat \/etc\/alpine-release | cut -d'.' -f1-2)\/community/g' /etc/apk/repositories
+# RUN sed -i 's/#http:\/\/dl-cdn.alpinelinux.org\/alpine\/v[0-9]*\.[0-9]*\/community/http:\/\/dl-cdn.alpinelinux.org\/alpine\/v$(cat \/etc\/alpine-release | cut -d'.' -f1-2)\/community/g' /etc/apk/repositories
 
 # install system dependencies
-RUN apk add --no-cache py3-olm
+# RUN apk add --no-cache py3-olm # for alpine
+RUN apt -y install python3-olm
 
 # Download dependencies as a separate step to take advantage of Docker's caching.
 # Leverage a cache mount to /root/.cache/pip to speed up subsequent builds.
@@ -41,7 +44,7 @@ RUN apk add --no-cache py3-olm
 # into this layer.
 RUN --mount=type=cache,target=/root/.cache/pip \
     --mount=type=bind,source=requirements.txt,target=requirements.txt \
-    python -m pip install -r requirements.txt
+    python -m pip install -r requirements.txt --no-cache-dir
 
 # Switch to the non-privileged user to run the application.
 USER appuser

@@ -12,8 +12,10 @@ services:
     build:
       context: .
     volumes:
-      - ./config.py:/config.py
-      - ./responses:/responses
+      - ./config.py:/app/config.py
+      - ./responses:/app/responses
+      - ./session.txt:/app/session.txt
+      - ./store:/app/store
 
 # The commented out section below is an example of how to define a PostgreSQL
 # database that your application can use. `depends_on` tells Docker Compose to
