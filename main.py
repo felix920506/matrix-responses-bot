@@ -1,6 +1,7 @@
 import simplematrixbotlib as botlib
 import os
 from config import PREFIX, RESPONSES_FOLDER, creds
+import traceback
 
 # Matrix Config
 config = botlib.Config()
@@ -54,4 +55,5 @@ while True:
         exit()
     except Exception as e:
         print(e)
+        traceback.print_exc()
         pass
