@@ -9,4 +9,4 @@ HOMESERVER = 'https://matrix.org'
 USERNAME = 'exampleuser'
 PASSWORD = 'password'
 
-creds = botlib.Creds(HOMESERVER, USERNAME, PASSWORD, session_stored_file="session.txt")
+creds = botlib.Creds(HOMESERVER, USERNAME, PASSWORD, session_stored_file="session/session.txt")

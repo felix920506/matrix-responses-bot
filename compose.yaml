@@ -14,7 +14,7 @@ services:
     volumes:
       - ./config.py:/app/config.py
       - ./responses:/app/responses
-      - ./session.txt:/app/session.txt
+      - ./session:/app/session
       - ./store:/app/store
 
 # The commented out section below is an example of how to define a PostgreSQL
