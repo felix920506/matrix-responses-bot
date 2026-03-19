@@ -1,4 +1,5 @@
 import simplematrixbotlib as botlib
+import nio
 import os
 from config import PREFIX, RESPONSES_FOLDER, creds
 import traceback
@@ -11,7 +12,7 @@ config.ignore_unverified_devices = True
 bot = botlib.Bot(creds, config)
 
 @bot.listener.on_message_event
-async def message_event_handler(room, message):
+async def message_event_handler(room: nio.rooms.MatrixRoom, message: nio.events.room_events.RoomMessageText):
     match = botlib.MessageMatch(room, message, bot, PREFIX)
 
     # ignore own messages
