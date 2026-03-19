@@ -48,4 +48,5 @@ async def message_event_handler(room: nio.rooms.MatrixRoom, message: nio.events.
     if f'{resp_id}.jpg' in available_responses:
         await bot.api.send_image_message(room.room_id, os.path.join(RESPONSES_FOLDER, f'{resp_id}.jpg'))
 
+print('Starting bot...')
 bot.run()
