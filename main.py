@@ -23,7 +23,7 @@ async def message_event_handler(room: nio.rooms.MatrixRoom, message: nio.events.
     if not match.prefix():
         return
 
-    print(f'Message from {match.user_id()} in {room.display_name}: {match.body()}')
+    print(f'Message in {room.display_name} from {message.sender}: {message.body}')
 
     # check for messing with prefix without specifying message
     if not len(match.args()):
