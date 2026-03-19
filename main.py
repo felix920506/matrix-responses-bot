@@ -2,7 +2,6 @@ import simplematrixbotlib as botlib
 import nio
 import os
 from config import PREFIX, RESPONSES_FOLDER, creds
-import traceback
 
 # Matrix Config
 config = botlib.Config()
@@ -49,14 +48,4 @@ async def message_event_handler(room: nio.rooms.MatrixRoom, message: nio.events.
     if f'{resp_id}.jpg' in available_responses:
         await bot.api.send_image_message(room.room_id, os.path.join(RESPONSES_FOLDER, f'{resp_id}.jpg'))
 
-
-while True:
-    try:
-        print('starting bot')
-        bot.run()
-    except KeyboardInterrupt:
-        exit()
-    except Exception as e:
-        print(e)
-        traceback.print_exc()
-        pass
+bot.run()
