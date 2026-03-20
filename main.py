@@ -1,6 +1,8 @@
 import simplematrixbotlib as botlib
 import nio
 import os
+import aiofiles
+import aiofiles.os
 from config import PREFIX, RESPONSES_FOLDER, creds
 
 # Matrix Config
@@ -30,20 +32,20 @@ async def message_event_handler(room: nio.rooms.MatrixRoom, message: nio.events.
     
     # Function logic
     resp_id = match.args()[0]
-    available_responses = os.listdir(RESPONSES_FOLDER)
+    available_responses = await aiofiles.os.listdir(RESPONSES_FOLDER)
 
     # Alias support
     if f'{resp_id}.alias' in available_responses:
-        with open(os.path.join(RESPONSES_FOLDER, f'{resp_id}.alias')) as alias_file:
-            resp_id = alias_file.read().strip()
+        async with aiofiles.open(os.path.join(RESPONSES_FOLDER, f'{resp_id}.alias')) as alias_file:
+            resp_id = (await alias_file.read()).strip()
 
     # handle actual responses
     if f'{resp_id}.md' in available_responses:
-        with open(os.path.join(RESPONSES_FOLDER, f'{resp_id}.md')) as response_file:
-            response = response_file.read()
+        async with aiofiles.open(os.path.join(RESPONSES_FOLDER, f'{resp_id}.md')) as response_file:
+            response = await response_file.read()
         response = response.format(*match.args()[1:])
         await bot.api.send_markdown_message(room.room_id, response)
-    
+
     # Images
     if f'{resp_id}.jpg' in available_responses:
         await bot.api.send_image_message(room.room_id, os.path.join(RESPONSES_FOLDER, f'{resp_id}.jpg'))
