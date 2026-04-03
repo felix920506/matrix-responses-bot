@@ -31,8 +31,9 @@ async def message_event_handler(room: nio.rooms.MatrixRoom, message: nio.events.
         return
     
     # Function logic
-    resp_id = match.args()[0]
+    resp_id = match.args()[0].lower()
     available_responses = await aiofiles.os.listdir(RESPONSES_FOLDER)
+    available_responses = [f.lower() for f in available_responses]
 
     # Alias support
     if f'{resp_id}.alias' in available_responses:
